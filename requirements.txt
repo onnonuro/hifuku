@@ -1,0 +1,5 @@
+opencv-python
+albumentations
+pytorch-lightning
+segmentation-models-pytorch
+scikit-image
