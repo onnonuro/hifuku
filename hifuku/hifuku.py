@@ -30,9 +30,9 @@ import segmentation_models_pytorch as smp
 
 
 def main(root, path, is_wsi, scale):
-    fascicle_seg_weights_path = f'{root}/weights/mask_rcnn_20220724_1116_batch2_epoch_20_n_aug1_size_2500.pt'
-    fiber_det_weights_path = f'{root}/weights/mobilenet_20220704_20_51_34_epoch30_n_aug16_batch16_0958.pt'
-    myelin_seg_weights_path = f'{root}/weights/Deeplab_20220608_05_58_10_n_559_epoch200_batch16_no_aug_classes_3_mIoU_0.817.pt'
+    fascicle_seg_weights_path = f'{root}/weights/mask_rcnn_20220724.pt'
+    fiber_det_weights_path = f'{root}/weights/mobilenet_20220704.pt'
+    myelin_seg_weights_path = f'{root}/weights/Deeplab_20220608.pt'
 
     # set parameters
     margin = 25
