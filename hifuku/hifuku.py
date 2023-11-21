@@ -26,20 +26,38 @@ from torchvision.models.detection.mask_rcnn import MaskRCNNPredictor
 from torchvision.models.detection import fasterrcnn_mobilenet_v3_large_fpn
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 import segmentation_models_pytorch as smp
-
-
+import gdown
+import zipfile
 
 def main(root, path, is_wsi, scale):
+    
     fascicle_seg_weights_path = f'{root}/weights/mask_rcnn_20220724.pt'
     fiber_det_weights_path = f'{root}/weights/mobilenet_20220704.pt'
     myelin_seg_weights_path = f'{root}/weights/Deeplab_20220608.pt'
+    
+    weight_paths = [fascicle_seg_weights_path, fiber_det_weights_path, myelin_seg_weights_path, f'{root}/weights/gmm_classifier.pkl']
+
+    for path_wt in weight_paths:
+        if not os.path.exists(path_wt):
+            url = 'https://drive.google.com/uc?id=1Fjhv9220C4axKodhwgDPZGHCIWBLJj30'
+            output = f'{root}/weights/hifuku_wt.zip'
+            os.makedirs(f'{root}/weights', exist_ok=True)
+            gdown.download(url, output, quiet=False)
+
+            # Extract the zip file
+            with zipfile.ZipFile(output, 'r') as zip_ref:
+                zip_ref.extractall(f'{root}')
+
+            # Delete the zip file after extraction
+            os.remove(output)
+            break
+        
 
     # set parameters
     margin = 25
     crop_size = 200
     color_o = (255, 73, 0)
     color_i = (255, 182, 0)
-
     # make a directory to save results
     image_id = os.path.splitext(os.path.splitext(os.path.basename(path))[0])[0]
     save_dir= f'{root}/results/{image_id}'
@@ -69,9 +87,9 @@ def main(root, path, is_wsi, scale):
 
     # segment fascicles
     transforms = torchvision.transforms.ToTensor()
-    model.eval()
+    model.to(device)
     x1 = transforms(img_s_np)
-    y1 = model(x1.unsqueeze(0))[0]
+    y1 = model(x1.unsqueeze(0).to(device))[0]
     
     # visualize the segmented fascicles
     merged = merge_prediction(x1, y1)
@@ -102,6 +120,7 @@ def main(root, path, is_wsi, scale):
         image_PIL.save(f'{save_dir}/fascicles/fascicle_{i:03}_bbox.jpg')
     # set segmentation model for detected fibers
     deeplab = Deeplab(n_classes=3).eval()
+    deeplab.to(device)
     deeplab.load_state_dict(torch.load(myelin_seg_weights_path))
     # segment fibers
     cols  = [
@@ -113,7 +132,7 @@ def main(root, path, is_wsi, scale):
     images_cnt = []
     for n, fibers in enumerate(fibers_s):
         for fiber, xy in zip(fibers, xy_fascicles[n]):
-            segmented_fiber = get_segmentation(fiber, deeplab, scale, color_o, color_i)
+            segmented_fiber = get_segmentation(fiber, deeplab, scale, color_o, color_i, device=device)
             images.append(segmented_fiber['img'])
             images_cnt.append(segmented_fiber['img_cnt'])
             segmented_fiber['df']['n_fas'] = n
@@ -237,7 +256,7 @@ def mask_fascicle(path, y1, threshold=0.8):
             img = np.array(img_l_PIL)
             original_size = img.shape
             mask_pt = y1['masks'][i]
-            mask_np = mask_pt.mul(255).squeeze(0).detach().numpy().astype(np.uint8)
+            mask_np = mask_pt.mul(255).squeeze(0).detach().cpu().numpy().astype(np.uint8)
             mask = cv2.resize(mask_np, (original_size[1], original_size[0]))
             pos = np.where(mask)
             xmin = np.min(pos[1])
@@ -283,13 +302,14 @@ def split_fascicle(masked_images, crop_size=200, margin=25):
 def detect_fiber(splitted_fascicle, weights_path, margin, threshold=0.5, crop_size=200, delta=2):
     net = Net().eval()
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    net.to(device)
     net.load_state_dict(torch.load(weights_path, map_location=device))
     transform = torchvision.transforms.Compose([torchvision.transforms.ToTensor()])
     fiber_images =[]
     boxes_s =[]
 
     for n, img in enumerate(splitted_fascicle):
-        x = transform(img)
+        x = transform(img).to(device)
         y = net(x.unsqueeze(0))[0]
         boxes_ = []
         
@@ -370,7 +390,7 @@ def visualize_detection(img_np, boxes_large, color_o, margin):
     return image_PIL
 
 
-def get_segmentation(fiber_image, deeplab, scale, color_o, color_i):
+def get_segmentation(fiber_image, deeplab, scale, color_o, color_i, device):
     transform = torchvision.transforms.Compose([torchvision.transforms.ToTensor()])
     fiber_size = fiber_image.shape[:2]
 
@@ -379,8 +399,8 @@ def get_segmentation(fiber_image, deeplab, scale, color_o, color_i):
     img_np = np.array(img_PIL)
     img_pt = transform(img_PIL)
 
-    y = deeplab(img_pt.unsqueeze(0))
-    y_label = torch.argmax(y, 1).squeeze(0).numpy()
+    y = deeplab(img_pt.unsqueeze(0).to(device))
+    y_label = torch.argmax(y.cpu(), 1).squeeze(0).numpy()
 
     # resize to 5 times original size
     scale_5 = scale / 5
@@ -499,7 +519,6 @@ def tile_images(images, n_row=5, n_col=5):
     fig.tight_layout()
 
     return fig
-
 
 if __name__ == '__main__':
     main()
