@@ -4,38 +4,44 @@
 
 # README.md
 
-## Hifuku: Automated Morphometric Analysis of Sural Nerve Biopsies
-Hifuku is a machine learning-based opensource software which enables Automated Morphometric Analysis in human sural nerve specimens
-
-Hifuku, means ‘sural’ or “saphenous” in Japanese
+## Hifuku: Morphometric Analysis of Sural Nerve Biopsies
+Hifuku, meaning 'sural' or 'saphenous' in Japanese, is an open-source machine learning-based software designed for Whole slide Morphometric Analysis in human sural nerve biopsies.
 
 ### Usage
 
-#### Installation and Setup in Google Colab
-Google Colab provides an easy-to-use environment for running Hifuku, especially for those who are not familiar with coding or do not have a local Python environment set up. Follow these steps to get started:
 
-1. **Open Google Colab**: Visit [Google Colab](https://colab.research.google.com/) and sign in with your Google account.
-
-2. **Create a New Notebook**: Click on 'New Notebook' to start a fresh environment.
-
-3. **Install Dependencies**: In a new cell, paste and run the following commands to install necessary dependencies:
-   ```python
-   !pip install opencv-python albumentations pytorch-lightning segmentation-models-pytorch scikit-image
-   ```
-
-4. **Clone the Hifuku Repository**: Clone the Hifuku GitHub repository to your Colab environment using:
+#### General Installation
+clone the Hifuku GitHub repository:
    ```python
    !git clone https://github.com/onnonuro/hifuku.git
    ```
 
-5. **Navigate to the Hifuku Directory**: Change the current working directory to the Hifuku folder:
-   ```python
-   %cd hifuku
-   ```
 
-6. **Running the Application**: Follow the instructions in the Jupyter Notebook tutorial provided in the repository to run specific analyses.
+#### Explore Hifuku in Google Colab
+Google Colab is the simplest way to utilize Hifuku with GPU support. It is particularly useful for those unfamiliar with coding or lacking a local Python environment. To get started:
 
-#### General Installation
-For users who prefer to install Hifuku in their local environment:
-- **GitHub Repository**: [Hifuku on GitHub](https://github.com/onnonuro/hifuku.git).
-- **Dependencies**: Ensure you have Python installed along with `opencv-python`, `albumentations`, `pytorch-lightning`, `segmentation-models-pytorch`, and `scikit-image`.
+*You need a google account and sign in to Google colab.
+
+1. **Download tutoial.ipynb**: Download tutoial.ipynb from [here](https://github.com/onnonuro/hifuku/blob/main/tutorial.ipynb).
+
+2. **Upload tutoial.ipynb to your Google Drive**: Upload the file to your [Google Drive](https://www.google.com/drive/).
+
+3. **Open tutoial.ipynb with Google Colab**: Visit [Google Colab](https://colab.research.google.com/), sign in with your Google account, and open tutoial.ipynb.
+
+4. **Run Hifuku**: Follow the instructions in the Jupyter Notebook tutorial .
+
+#### Dependencies
+Hifuku was tested on November 21, 2023 in the following Google Clolab environment.
+
+Python (3.10.12)
+torch (2.1.0+cu118)
+torchvision (0.16.0+cu118)
+torchmetrics (1.2.0)
+pytorch-lightning (2.1.2)
+segmentation-models-pytorch (0.3.3)
+timm (0.9.2)
+opencv-python (4.8.0.76)
+albumentations (1.3.1)
+
+#### Citation
+Automated Whole Slide Morphometrics of Sural Nerve Biopsy by Machine Learning

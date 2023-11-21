@@ -4,4 +4,3 @@ pytorch-lightning
 segmentation-models-pytorch
 scikit-image
 gdown
-zipfile

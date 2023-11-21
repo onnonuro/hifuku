@@ -1,6 +1,5 @@
 import os
 import os.path
-# import random
 import math
 from pathlib import Path
 
@@ -313,10 +312,6 @@ def detect_fiber(splitted_fascicle, weights_path, margin, threshold=0.5, crop_si
         y = net(x.unsqueeze(0))[0]
         boxes_ = []
         
-        # image_PIL = Image.fromarray(img)
-        # draw = ImageDraw.Draw(image_PIL)
-        
-        
         for i, box in enumerate(y['boxes']):
             x_center = (box[0] + box[2]) / 2
             y_center = (box[1] + box[3]) / 2
@@ -340,29 +335,10 @@ def detect_fiber(splitted_fascicle, weights_path, margin, threshold=0.5, crop_si
                 fiber_image = img[ymin:ymax, xmin:xmax]
                 fiber_images.append(fiber_image)
                 
-        #         draw.rectangle([xmin, ymin, xmax, ymax], outline='red', width=1)
-        #     else:
-        #         xmin = max([0, int(box[0]) - delta])
-        #         ymin = max([0, int(box[1]) - delta])
-        #         xmax = min([crop_size + 2*margin, int(box[2]) + delta])
-        #         ymax = min([crop_size + 2*margin, int(box[3]) + delta])
-        #         draw.rectangle([xmin, ymin, xmax, ymax], outline='black', width=1)
-                
-        # draw.rectangle((margin, margin, img.shape[1]-margin, img.shape[0]-margin), outline='green', width=3)
-        # save_dir = '/Users/M286333/Documents/_projects/hifuku/results/tiles'
-        # image_PIL.save(f'{save_dir}/tiles_{n}_{i:03}.jpg')
-
         boxes_s.append(boxes_)
         
     return fiber_images, boxes_s
 
-# def save_tiles(img_np, boxes_s, save_dir=save_dir, margin=margin):
-#     image_PIL = Image.fromarray(img_np)
-#     draw = ImageDraw.Draw(image_PIL)
-#     for i, box in enumerate(boxes_s):
-#         draw.rectangle(box, outline='red', width=1)
-#         draw.rectangle((margin, margin, img_np.shape[1]-margin, img_np.shape[0]-margin), outline='green', width=3)
-#         image_PIL.save(f'{save_dir}/fascicles/tiles_{i:03}.jpg')
             
 def get_boxes_large(splitted_fascicle, boxes_s, crop_size, margin):
     boxes_large = []
@@ -421,8 +397,6 @@ def get_segmentation(fiber_image, deeplab, scale, color_o, color_i, device):
         areas = [cv2.contourArea(cnt_o) for cnt_o in cnt_out]
         max_idx = np.argmax(areas)
         area_out = areas[max_idx]
-        # perimeter = cv2.arcLength(cnt_out[max_idx], True)
-        # circularity = 4 * np.pi * area_out / perimeter / perimeter
         img_cnt = cv2.drawContours(x_np, [cnt_out[max_idx]], -1, color=color_o, thickness=2)
         
         # draw an ellipse

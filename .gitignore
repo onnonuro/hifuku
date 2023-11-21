@@ -1,4 +1,8 @@
+__pycache__/
 data/
-# weights/
+weights/
 results/
 past/
+.gitattributes
+.DS_Store
+hifuku.egg-info
