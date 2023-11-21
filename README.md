@@ -1,12 +1,8 @@
-# test 
-# I will soon close this repo.
-
-
 # README.md
 
 ## Hifuku: Morphometric Analysis of Sural Nerve Biopsies
 Hifuku, meaning 'sural' or 'saphenous' in Japanese, is an open-source machine learning-based software designed for Whole slide Morphometric Analysis in human sural nerve biopsies.
-
+![Alt Text](data/graphical_abstract.pdf)
 ### Usage
 
 
@@ -33,15 +29,7 @@ Google Colab is the simplest way to utilize Hifuku with GPU support. It is parti
 #### Dependencies
 Hifuku was tested on November 21, 2023 in the following Google Clolab environment.
 
-Python (3.10.12)
-torch (2.1.0+cu118)
-torchvision (0.16.0+cu118)
-torchmetrics (1.2.0)
-pytorch-lightning (2.1.2)
-segmentation-models-pytorch (0.3.3)
-timm (0.9.2)
-opencv-python (4.8.0.76)
-albumentations (1.3.1)
+Python (3.10.12), torch (2.1.0+cu118), torchvision (0.16.0+cu118), torchmetrics (1.2.0), pytorch-lightning (2.1.2), segmentation-models-pytorch (0.3.3), timm (0.9.2), opencv-python (4.8.0.76), albumentations (1.3.1)
 
 #### Citation
 Automated Whole Slide Morphometrics of Sural Nerve Biopsy by Machine Learning
