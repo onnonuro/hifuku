@@ -7,14 +7,14 @@ Hifuku, meaning 'sural' or 'saphenous' in Japanese, is an open-source machine le
 
 
 
-## General Installation
+## Installation
 Clone the Hifuku GitHub repository:
    ```python
    git clone https://github.com/onnonuro/hifuku.git
    ```
 
 
-## Use Hifuku in Google Colab
+## Tutorial in Google Colab
 Google Colab is the simplest way to utilize Hifuku with GPU support. It is particularly useful for those unfamiliar with coding or lacking a local Python environment. To get started:
 
       *You need a google account and sign in to Google colab.
