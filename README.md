@@ -4,7 +4,8 @@
 Hifuku, meaning 'sural' or 'saphenous' in Japanese, is an open-source machine learning-based software designed for Whole slide Morphometric Analysis in human sural nerve biopsies.
 
 
-![Alt Text](data/graphical_abstract.jpg)
+
+![Alt Text](hifuku/data/graphical_abstract.jpg)
 
 ### Usage
 
