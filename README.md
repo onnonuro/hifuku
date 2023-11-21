@@ -14,11 +14,10 @@ Clone the Hifuku GitHub repository:
    ```
 
 
-## Tutorial in Google Colab
-Google Colab is the simplest way to utilize Hifuku with GPU support. It is particularly useful for those unfamiliar with coding or lacking a local Python environment. To get started:
+## Tutorial with Google Colab
+Google Colab is the easiest way to try out Hifuku with GPU support,  especially  for clinicians and pathologists who are unfamiliar with programming or do not have a local Python environment. 
 
-      *You need a google account and sign in to Google colab.
-
+To get started:
 1. **Download tutoial.ipynb**: Download [tutoial.ipynb](https://github.com/onnonuro/hifuku/blob/main/tutorial.ipynb).
 
 2. **Upload tutoial.ipynb to your Google Drive**: Upload the file to your [Google Drive](https://www.google.com/drive/).
@@ -26,6 +25,8 @@ Google Colab is the simplest way to utilize Hifuku with GPU support. It is parti
 3. **Open tutoial.ipynb with Google Colab**: Sign in [Google Colab](https://colab.research.google.com/) and open tutoial.ipynb with it.
 
 4. **Run Hifuku**: Follow the instructions in the Jupyter Notebook tutorial.
+
+      *You need a google account and sign in to Google colab.
 
 
 ## Dependencies
