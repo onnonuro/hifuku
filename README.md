@@ -5,7 +5,7 @@ Hifuku, meaning 'sural' or 'saphenous' in Japanese, is an open-source machine le
 
 
 
-![Alt Text](hifuku/data/graphical_abstract.jpg)
+![Alt Text](data/graphical_abstract.jpg)
 
 ### Usage
 
