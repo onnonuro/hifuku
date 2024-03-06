@@ -36,4 +36,5 @@ Python (3.10.12), torch (2.1.0+cu118), torchvision (0.16.0+cu118), torchmetrics 
 
 
 ## Citation
-Automated Whole Slide Morphometrics of Sural Nerve Biopsy by Machine Learning
+Ono D et al. Automated Whole slide morphometrics of sural nerve biopsy using machine learning
+Neuropathol Appl Neurobiol. 2024;50:e12967. doi:10.1111/nan.12967
