@@ -28,7 +28,7 @@ import segmentation_models_pytorch as smp
 import gdown
 import zipfile
 
-def main(root, path, is_wsi, scale):
+def main(root, path, is_wsi, scale, fib_det_th):
     
     fascicle_seg_weights_path = f'{root}/weights/mask_rcnn_20220724.pt'
     fiber_det_weights_path = f'{root}/weights/mobilenet_20220704.pt'
@@ -108,7 +108,7 @@ def main(root, path, is_wsi, scale):
     xy_fascicles = []
     for i in range(len(splitted_fascicles)):
         fibers = []
-        fiber_images, boxes_s = detect_fiber(splitted_fascicles[i]['image'], fiber_det_weights_path, margin)
+        fiber_images, boxes_s = detect_fiber(splitted_fascicles[i]['image'], fiber_det_weights_path, margin, threshold=fib_det_th)
         boxes_large = get_boxes_large(splitted_fascicles[i], boxes_s, crop_size, margin)
         for box in boxes_large:
             fibers.append(masked_images[i][math.floor(box[1]):math.ceil(box[3]), math.floor(box[0]):math.ceil(box[2])])
@@ -365,6 +365,28 @@ def visualize_detection(img_np, boxes_large, color_o, margin):
     draw.rectangle((margin, margin, img_np.shape[1]-margin, img_np.shape[0]-margin), outline=(130, 173, 194), width=3)
     return image_PIL
 
+# def visualize_detection(img_np, boxes_large, color_o, margin, opacity=63):
+#     # Convert the base color to RGBA
+#     color_fill = color_o + (opacity,)
+
+#     # Create the original image from the numpy array
+#     image_PIL = Image.fromarray(img_np)
+
+#     # Create a transparent layer
+#     overlay = Image.new('RGBA', image_PIL.size, (0, 0, 0, 0))
+#     draw = ImageDraw.Draw(overlay)
+
+#     # Draw filled rectangles with transparency on the overlay
+#     for box in boxes_large:
+#         draw.rectangle(box, fill=color_fill)
+
+#     # Draw the outer rectangle without filling on the overlay
+#     draw.rectangle((margin, margin, img_np.shape[1]-margin, img_np.shape[0]-margin), outline=(130, 173, 194, 255), width=5)
+
+#     # Blend the overlay with the original image
+#     image_PIL.paste(Image.alpha_composite(image_PIL.convert('RGBA'), overlay), (0, 0))
+
+#     return image_PIL
 
 def get_segmentation(fiber_image, deeplab, scale, color_o, color_i, device):
     transform = torchvision.transforms.Compose([torchvision.transforms.ToTensor()])
