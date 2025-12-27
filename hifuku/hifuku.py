@@ -38,7 +38,7 @@ def main(root, path, is_wsi, scale, fib_det_th):
 
     for path_wt in weight_paths:
         if not os.path.exists(path_wt):
-            url = 'https://drive.google.com/uc?id=1Fjhv9220C4axKodhwgDPZGHCIWBLJj30'
+            url = 'https://drive.google.com/uc?id=1KGx5Jr6dipCPPEJOPCeKbzeiM5Ujrdpl'
             output = f'{root}/weights/hifuku_wt.zip'
             os.makedirs(f'{root}/weights', exist_ok=True)
             gdown.download(url, output, quiet=False)
@@ -50,7 +50,7 @@ def main(root, path, is_wsi, scale, fib_det_th):
             # Delete the zip file after extraction
             os.remove(output)
             break
-        
+
 
     # set parameters
     margin = 25
